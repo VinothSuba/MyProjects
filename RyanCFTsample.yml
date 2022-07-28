@@ -1,0 +1,262 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+# Tag Parameters on every resource.
+  environment:
+    Type: String
+  AccountId:
+    Type: String
+  awsRegion:
+    Type: String
+  dbInstanceName:
+    Type: String
+  serviceName:
+    Type: String
+  lambdaDaily :
+    Type: String
+  lambdaWeekly :
+    Type: String
+
+Resources:
+  expoCWDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: !Sub expo-${environment}-Dashboard
+      DashboardBody: !Sub '{"widgets": [
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "CPUUtilization", "DBInstanceIdentifier", "expo-aur-${dbInstanceName}", { "stat": "Average", "id": "m0", "region": "${awsRegion}" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "expo_RDS - CPUUtilization",
+                "region": "${awsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "DatabaseConnections", "DBInstanceIdentifier", "expo-aur-${dbInstanceName}", { "stat": "Sum", "id": "m0" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "expo-RDS - DatabaseConnections",
+                "region": "${awsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "FreeableMemory", "DBInstanceIdentifier", "expo-aur-${dbInstanceName}", { "stat": "Average", "id": "m0" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "expo-RDS-FreeableMemory",
+                "region": "${awsRegion}"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 18,
+            "y": 0,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "title": "expo-RDS-QueueDepth",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:${awsRegion}:${AccountId}:alarm:AWS_fm~RDS~expo~expo-aur-${dbInstanceName}~DiskQueueDepth"
+                    ]
+                },
+                "view": "timeSeries",
+                "stacked": false
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 6,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "ReadThroughput", "DBInstanceIdentifier", "expo-aur-${dbInstanceName}", { "stat": "Average", "id": "m0", "region": "${awsRegion}" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "expo-RDS-ReadThroughput",
+                "region": "${awsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 6,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "WriteThroughput", "DBInstanceIdentifier", "expo-aur-${dbInstanceName}", { "stat": "Average", "id": "m0", "region": "${awsRegion}" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "expo-RDS-WriteThroughput",
+                "region": "${awsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "x": 0,
+            "y": 12,
+            "type": "metric",
+            "properties": {
+                "title": "expo-ECS-CPUUtilization",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:${awsRegion}:${AccountId}:alarm:AWS_fm~ECS~expo~expo-cf_cw_expo-Service_expo-ecs-${environment}_${serviceName}~CPUUtilization~MINOR"
+                    ]
+                  },
+                  "view": "timeSeries",
+                  "stacked": false,
+                  "type": "chart"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "x": 6,
+            "y": 12,
+            "type": "metric",
+            "properties": {
+                "title": "expo-ECS-MemoryUtilization",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:${awsRegion}:${AccountId}:alarm:AWS_fm~ECS~expo~expo-cf_cw_expo-Service_expo-ecs-${environment}_${serviceName}~MemoryUtilization~WARNING"
+                    ]
+                  },
+                  "view": "timeSeries",
+                  "stacked": false,
+                  "type": "chart"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 6,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "title": "expo-Lambda-Errors Weekly",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:${awsRegion}:${AccountId}:alarm:AWS_fm~LAMBDA~expo~expo-cf_cw_expo-lambda_${lambdaWeekly}~Errors~MAJOR"
+                    ]
+                },
+                "view": "timeSeries",
+                "stacked": false,
+                "type": "chart"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 18,
+            "y": 6,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "title": "expo-Lambda-Errors Daily",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:${awsRegion}:${AccountId}:alarm:AWS_fm~LAMBDA~expo~expo-cf_cw_expo-lambda_${lambdaDaily}~Errors~MAJOR"
+                    ]
+                },
+                "view": "timeSeries",
+                "stacked": false,
+                "type": "chart"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 18,
+            "y": 12,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "title": "expo-Lambda-ConcurrentExecutions Daily",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:${awsRegion}:${AccountId}:alarm:AWS_fm~LAMBDA~expo~expo-cf_cw_expo-lambda_${lambdaDaily}~ConcurrentExecutions~MAJOR"
+                    ]
+                },
+                "view": "timeSeries",
+                "stacked": false,
+                "type": "chart"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 12,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "title": "expo-Lambda-ConcurrentExecutions Weekly",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:${awsRegion}:${AccountId}:alarm:AWS_fm~LAMBDA~expo~expo-cf_cw_expo-lambda_${lambdaWeekly}~ConcurrentExecutions~MAJOR"
+                    ]
+                },
+                "view": "timeSeries",
+                "stacked": false,
+                "type": "chart"
+            }
+        }
+
+]
+}'
