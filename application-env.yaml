@@ -1,0 +1,61 @@
+PROFILE: DEVL
+ldng:
+  appid: "gqqdevl"
+aws:
+  s3:
+    region: "us-east-1"
+    bucket: "acqldysvc-devl-sfbu-us-east-1"
+    leoMessagesFolder: "app/dev1/leo/leo-messages"
+    largePayloadRequestFolder: "inbox/cin/dflt/DSET00009560/dev1/leo/large-payloads"
+    largePayloadResponseFolder: "inbox/cin/dflt/DSET00009560/dev1/leo/large-payloads"
+    ruleName: "MessageDeleteRule"
+    expireMsg: true
+    expirationDays: 7
+    leoRequestFolder: "app/dev1/ts/darkLaunch/leoRequest"
+  roles:
+    leo_role_s3: "acqldysvc-devl-sfbu-comp"
+  ems:
+    region: "us-east-1"
+    username: "gqqdevl"
+    brokerURL: "ssl://dlfapt-ems01a.fanniemae.com:6201,ssl://dlfapt-ems01b.fanniemae.com:6201"
+    security_protocol: "ssl"
+    ssl_vendor: "j2se"
+    ssl_enable_verify_host: "false"
+    connectionFactory: "LDNGP2PQueueConnectionFactory"
+    receiveTimeout: "100000"
+    connectionType: "FEDERATE"
+  esb:
+    #username: "acqldysvc_devl"
+    username: "gqqdevl"
+    message:
+      routing:
+        channel: DEV1
+      listener:
+        count:
+          default: 16
+    bro:
+      request:
+        acqEligibility:
+          entityType: LDNG_ELIGIBILITY_REQ
+          eventType: LDNG_PUBLISH_DEV4
+        pricing:
+          entityType: PRICING
+          eventType: LDNG_ELIGIBILITY_REQ_LDNGDEV
+epv:
+  leo:
+    ldap:
+      objectRefId: "ldap-fanniemae.com/gqqdevl"
+#    postgres:
+#      objectRefId: "FVV_PGSQL_LEO_01_APP_ACCT"
+#    esb:
+#      objectRefId: "ERI_ESB_TRUSTEDSTORE"
+    ad:
+      objectRefId: "ad-fanniemae.com/gqqdevl"
+#    envCode: "d"
+queues:
+  concurrent-consumers: 2
+  max-concurrent-consumers: 10
+correspondent:
+  correspondentList: 17251
+toggle:
+  publishLeoReqAndResAWS2: true
