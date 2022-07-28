@@ -1,0 +1,28 @@
+aws:
+  appShortName: "acqldysvc"
+  leo:
+    secretName:
+      postgres: "acqldysvc-clu-leodev1/acqldysvc_devl"
+      ldap: "ldap-fanniemae.com/gqqdevl"
+    largerPayloadsPrefix: "/insight/cin/dflt/DSET00009560/dev1/leo/largePayloads"
+    broRequestAcquisitionsTopicName: arn:aws:sns:us-east-1:310306400902:acqldysvc-devl-sfbu-LoanAcquisitionsEligibilityRequested-dev1-v1
+    broRequestPricingTopicName: arn:aws:sns:us-east-1:310306400902:acqldysvc-devl-sfbu-LoanPricingEligibilityRequested-dev1-v1
+    broResponseQueueName: "acqldysvc-devl-sfbu-loaneligibilityresponse-dev1-v1"
+    broResponseDlQueueName: "acqldysvc-devl-sfbu-loaneligibilityresponse-dev1-Suspend"
+    s3:
+      eligMsgDir: "app/dev1/leo/events"
+    leoRequestSqsQueueName: "acqldysvc-devl-sfbu-LEOREQ-dev1-v1"
+    leoRequestSqsDlQueueName: "acqldysvc-devl-sfbu-LEOREQ-dev1-Suspend"
+    leoResponseSnsTopicName: arn:aws:sns:us-east-1:310306400902:acqldysvc-devl-sfbu-LEORES-dev1-v1
+    leoResponseSnsTopicEvent: "LEORES"
+    leoResponseChannel: DEV1
+    leoResEventType: "LEORES"
+    leoResEntityType: "LEO"
+    leoEntityId: "LEO"
+    leoResBizEvent: "LEORES"
+    leoReqBizEvent: "LEOREQ"
+spring:
+  datasource:
+    username: "acqldysvc_devl"
+    jdbc-url: "jdbc:postgresql://acqldysvc-clu-leodev1.cluster-clo4dquaussc.us-east-1.rds.amazonaws.com:5432/LDYLEOD1?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory"
+AppEnv: dev1
