@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+      <fieldNames>
+        <levelValue>[ignore]</levelValue>
+      </fieldNames>
+      <shortenedLoggerNameLength>0</shortenedLoggerNameLength>
+      <timestampPattern>yyyy-MM-dd'T'HH:mm:ss.SSSZ</timestampPattern>
+      <includeMdcKeyName>userId</includeMdcKeyName>
+      <includeMdcKeyName>onBehalfId</includeMdcKeyName>
+      <includeMdcKeyName>userRoles</includeMdcKeyName>
+      <includeMdcKeyName>sqsMsgId</includeMdcKeyName>
+      <includeMdcKeyName>requestId</includeMdcKeyName>
+      <includeMdcKeyName>batchId</includeMdcKeyName>
+      <includeMdcKeyName>entityType</includeMdcKeyName>
+      <includeMdcKeyName>loanCount</includeMdcKeyName>
+      <includeMdcKeyName>bizEvent</includeMdcKeyName>
+      <customFields>{"component":"LEO-WEB"}</customFields>
+    </encoder>
+  </appender>
+
+  <appender name="perf-logfile" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+      <fieldNames>
+        <levelValue>[ignore]</levelValue>
+      </fieldNames>
+      <shortenedLoggerNameLength>0</shortenedLoggerNameLength>
+      <timestampPattern>yyyy-MM-dd'T'HH:mm:ss.SSSZ</timestampPattern>
+      <includeMdcKeyName>userId</includeMdcKeyName>
+      <includeMdcKeyName>onBehalfId</includeMdcKeyName>
+      <includeMdcKeyName>userRoles</includeMdcKeyName>
+      <includeMdcKeyName>sqsMsgId</includeMdcKeyName>
+      <includeMdcKeyName>requestId</includeMdcKeyName>
+      <includeMdcKeyName>batchId</includeMdcKeyName>
+      <includeMdcKeyName>entityType</includeMdcKeyName>
+      <includeMdcKeyName>loanCount</includeMdcKeyName>
+      <includeMdcKeyName>bizEvent</includeMdcKeyName>
+      <includeMdcKeyName>totalTime</includeMdcKeyName>
+      <includeMdcKeyName>perfCutPoint</includeMdcKeyName>
+      <customFields>{"logType":"performance","component":"LEO-WEB"}</customFields>
+    </encoder>
+  </appender>
+
+  <logger name="com.fanniemae.ldcs.leo.logging" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="perf-logfile"/>
+  </logger>
+
+  <logger name="com.fanniemae.ldcs.leo" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="console" />
+  </logger>
+
+  <!-- Enabled Debug mode for uploading Req/Res to S3 -->
+  <logger name="com.fanniemae.ldcs.leo.esb.LeoESBMessageProcessor" additivity="false">
+    <level value="INFO"/>
+    <appender-ref ref="console" />
+  </logger>
+
+  <logger name="com.fanniemae.ldcs.leo.util.S3Utils" additivity="false">
+    <level value="INFO"/>
+    <appender-ref ref="console" />
+  </logger>
+
+  <root>
+    <level value="INFO"/>
+    <appender-ref ref="console"/>
+  </root>
+
+</configuration>
