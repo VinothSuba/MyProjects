@@ -200,7 +200,7 @@ Resources:
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ "AWS/SNS", "NumberOfMessagesPublished", "Name", "${loanAcquisitionsEligibilityRequestedSns}",{ "stat": "Average", "region": "${awsRegion}" }],
+                    [ "AWS/SNS", "NumberOfMessagesPublished", "Name", "${loanAcquisitionsEligibilityRequestedSns}",{ "stat": "Sum", "region": "${awsRegion}" }],
                     [".", "NumberOfNotificationsFailed", ".", ".",{ "stat": "Average", "region": "${awsRegion}" }],
                     [".", "NumberOfNotificationsRedrivenToDlq", ".", ".",{ "stat": "Average", "region": "${awsRegion}" }],
                     [".", "NumberOfNotificationsFailedToRedriveToDlq", ".", ".",{ "stat": "Average", "region": "${awsRegion}" }],
@@ -225,7 +225,7 @@ Resources:
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ "AWS/SNS", "NumberOfMessagesPublished", "Name", "${loanPricingEligibilityRequestedSns}", { "stat": "Average", "region": "${awsRegion}" }],
+                    [ "AWS/SNS", "NumberOfMessagesPublished", "Name", "${loanPricingEligibilityRequestedSns}", { "stat": "Sum", "region": "${awsRegion}" }],
                     [".", "NumberOfNotificationsFailed", ".", ".",{ "stat": "Average", "region": "${awsRegion}" }],
                     [".", "NumberOfNotificationsRedrivenToDlq", ".", ".",{ "stat": "Average", "region": "${awsRegion}" }],
                     [".", "NumberOfNotificationsFailedToRedriveToDlq", ".", ".",{ "stat": "Average", "region": "${awsRegion}" }],
@@ -250,7 +250,7 @@ Resources:
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ "AWS/SNS", "NumberOfMessagesPublished", "Name", "${leoResSnsn}", { "stat": "Average", "region": "${awsRegion}" }],
+                    [ "AWS/SNS", "NumberOfMessagesPublished", "Name", "${leoResSnsn}", { "stat": "Sum", "region": "${awsRegion}" }],
                     [".", "NumberOfNotificationsFailed", ".", ".",{ "stat": "Average", "region": "${awsRegion}" }],
                     [".", "NumberOfNotificationsRedrivenToDlq", ".", ".",{ "stat": "Average", "region": "${awsRegion}" }],
                     [".", "NumberOfNotificationsFailedToRedriveToDlq", ".", ".",{ "stat": "Average", "region": "${awsRegion}" }],
