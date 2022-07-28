@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'This template for leo cloudwatch dashboard'
+
+Parameters:
+  DashboardName:
+    Type: String
+    Default: leo-dashboard-dev1
+
+
+Resources:
+  LeoCWDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: !Ref DashboardName
+      DashboardBody: '{
+                        "start": "-PT5H",
+                        "periodOverride": "inherit",
+                        "widgets": [
+                           {
+                              "type":"metric",
+                              "x":0,
+                              "y":0,
+                              "width":6,
+                              "height":6,
+                              "properties":{
+                                 "metrics":[
+                                    [
+                                       "AWS/SQS",
+                                       "ApproximateAgeOfOldestMessage",
+                                       "Name",
+                                       "acqldysvc-dev1-sfbu-LEOREQ-dev-v1"
+                                    ],
+                                    [".", "NumberOfMessagesSent", ".", "."],
+                                    [".", "SentMessageSize", ".", "."]                                                                     
+                                 ],
+                                 "period":300,
+                                 "stat":"Average",
+                                 "region":"us-east-1",
+                                 "title":"acqldysvc-dev1-sfbu-LEOREQ-dev-v1"
+                              }
+                           },
+                           {
+                              "type":"metric",
+                              "x":6,
+                              "y":0,
+                              "width":6,
+                              "height":6,
+                              "properties":{
+                                 "metrics":[
+                                    [
+                                       "AWS/SQS",
+                                       "ApproximateAgeOfOldestMessage",
+                                       "Name",
+                                       "acqldysvc-dev1-sfbu-loaneligibilityresponse-dev1-v1"
+                                    ],
+                                    [".", "NumberOfMessagesSent", ".", "."],
+                                    [".", "SentMessageSize", ".", "."]                                                                     
+                                 ],
+                                 "period":300,
+                                 "stat":"Average",
+                                 "liveData": true,
+                                 "region":"us-east-1",
+                                 "title":"acqldysvc-dev1-sfbu-loaneligibilityresponse-dev1-v1"
+                              }
+                           }                           
+                        ]
+                      }'
+      
