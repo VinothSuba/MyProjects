@@ -1,0 +1,34 @@
+[
+  {
+    "ParameterKey": "environment",
+    "ParameterValue": "dev1"
+  },
+  {
+    "ParameterKey": "awsRegion",
+    "ParameterValue": "us-east-1"
+  },
+  {
+    "ParameterKey": "dbInstanceName",
+    "ParameterValue": "acqldysvc- clu-leodev1/acqldysvc_dev1"
+  },
+  {
+    "ParameterKey": "leoReqSqs",
+    "ParameterValue": "acqldysvc-dev1-sfbu-LEOREQ-dev-v1"
+  },
+  {
+    "ParameterKey": "leoResSqs",
+    "ParameterValue": "acqldysvc-dev1-sfbu-loaneligibilityresponse-dev1-v1"
+  },
+  {
+    "ParameterKey": "loanAcquisitionsEligibilityRequestedSns",
+    "ParameterValue": "acqldysvc-dev1-sfbu-LoanAcquisitionsEligibilityRequested-dev1-v1"
+  },
+  {
+    "ParameterKey": "loanPricingEligibilityRequestedSns",
+    "ParameterValue": "acqldysvc-dev1-sfbu-LoanPricingEligibilityRequested-dev1-v1"
+  },
+  {
+    "ParameterKey": "leoResSnsn",
+    "ParameterValue": "acqldysvc-dev1-sfbu-LEORES-dev1-v1"
+  }
+]
