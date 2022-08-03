@@ -1,0 +1,22 @@
+Type: AWS::CloudWatch::Alarm
+Properties:
+    AlarmName: AWS_fm~SQS~acqldysvc~LEOREQ-dev3~ApproximateNumberOfMessagesNotVisible
+    AlarmDescription: LifeCycle=devl-sfbu,AssetID=MSR06554,AlertGroup=,Severity=4
+    ActionsEnabled: true
+    OKActions: []
+    AlarmActions:
+        - arn:aws:sns:us-east-1:310306400902:fnma-emm-topic
+        - arn:aws:sns:us-east-1:310306400902:acqldysvc-devl-sfbu-application-events-topic
+    InsufficientDataActions: []
+    MetricName: ApproximateNumberOfMessagesNotVisible
+    Namespace: AWS/SQS
+    Statistic: Minimum
+    Dimensions:
+        - Name: QueueName
+          Value: acqldysvc-devl-sfbu-LEOREQ-dev3-v1
+    Period: 900
+    Unit: Count
+    EvaluationPeriods: 1
+    DatapointsToAlarm: 1
+    Threshold: 500
+    ComparisonOperator: GreaterThanOrEqualToThreshold
