@@ -1,0 +1,22 @@
+Type: AWS::CloudWatch::Alarm
+Properties:
+    AlarmName: AWS_fm~RDS~acqldysvc~acqldysvc-aur-leodev1~ReplicaLag
+    AlarmDescription: Lifecycle=Development,AssetID=MSR06554,AlertGroup=GQQ_ACQLDYSVC_DEVL_SFBU_AWS_ALERT
+    ActionsEnabled: true
+    OKActions: []
+    AlarmActions:
+        - arn:aws:sns:us-east-1:310306400902:acqldysvc-devl-sfbu-application-events-topic
+        - arn:aws:sns:us-east-1:310306400902:fnma-emm-topic
+    InsufficientDataActions: []
+    MetricName: ReplicaLag
+    Namespace: AWS/RDS
+    Statistic: Maximum
+    Dimensions:
+        - Name: LoadBalancerName
+          Value: acqldysvc-aur-leodev1
+    Period: 300
+    Unit: Seconds
+    EvaluationPeriods: 2
+    DatapointsToAlarm: 2
+    Threshold: 500
+    ComparisonOperator: GreaterThanOrEqualToThreshold
