@@ -1,0 +1,75 @@
+{
+    "widgets": [
+        {
+            "height": 5,
+            "width": 12,
+            "y": 0,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "title": "acqldysvc-ldp-web~customLogErrorMetric",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:us-east-1:310306400902:alarm:AWS_fm~ECS~acqldysvc~acqldysvc-ecs-dev2-acqldysvc-ldp-web~customLogErrorMetric"
+                    ]
+                },
+                "view": "timeSeries",
+                "stacked": false,
+                "legend": {
+                    "position": "bottom"
+                }
+            }
+        },
+        {
+            "height": 5,
+            "width": 12,
+            "y": 0,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "title": "acqldysvc-ldp-web~RunningTaskCount",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:us-east-1:310306400902:alarm:AWS_fm~ECS~acqldysvc~acqldysvc-ecs-dev2-acqldysvc-ldp-web~RunningTaskCount"
+                    ]
+                },
+                "view": "timeSeries",
+                "stacked": false
+            }
+        },
+        {
+            "height": 9,
+            "width": 24,
+            "y": 5,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "title": "acqldysvc-ldp-web~CPUUtilization",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:us-east-1:310306400902:alarm:AWS_fm~ECS~acqldysvc~acqldysvc-ecs-dev2-acqldysvc-ldp-web~CPUUtilization"
+                    ]
+                },
+                "view": "timeSeries",
+                "stacked": false
+            }
+        },
+        {
+            "height": 9,
+            "width": 24,
+            "y": 14,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "title": "acqldysvc-ldp-web~MemoryUtilization",
+                "annotations": {
+                    "alarms": [
+                        "arn:aws:cloudwatch:us-east-1:310306400902:alarm:AWS_fm~ECS~acqldysvc~acqldysvc-ecs-dev2-acqldysvc-ldp-web~MemoryUtilization"
+                    ]
+                },
+                "view": "timeSeries",
+                "stacked": false
+            }
+        }
+    ]
+}
