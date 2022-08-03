@@ -1,0 +1,22 @@
+Type: AWS::CloudWatch::Alarm
+Properties:
+    AlarmName: AWS_fm~SQS~acqldysvc~LEOREQ-dev1~ApproximateAgeOfOldestMessage
+    AlarmDescription: LifeCycle=devl-sfbu,AssetID=MSR06554,AlertGroup=,Severity=4
+    ActionsEnabled: true
+    OKActions: []
+    AlarmActions:
+        - arn:aws:sns:us-east-1:310306400902:acqldysvc-devl-sfbu-application-events-topic
+        - arn:aws:sns:us-east-1:310306400902:fnma-emm-topic
+    InsufficientDataActions: []
+    MetricName: ApproximateAgeOfOldestMessage
+    Namespace: AWS/SQS
+    Statistic: Minimum
+    Dimensions:
+        - Name: QueueName
+          Value: acqldysvc-devl-sfbu-LEOREQ-dev1-v1
+    Period: 3600
+    Unit: Count
+    EvaluationPeriods: 1
+    DatapointsToAlarm: 1
+    Threshold: 1
+    ComparisonOperator: GreaterThanOrEqualToThreshold
