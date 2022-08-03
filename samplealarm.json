@@ -1,0 +1,384 @@
+{
+  "Env": {
+    "AssetID": "MSR03825",
+    "ApplicationShortName": "smart", 
+    "ComponentName": "GEA-smart-monitoring"
+  },
+  "Options": {
+    "AlertGroup": "GEA_SMART_DEVL_SFBU_AWS_ALERT",  
+    "AlarmDestination": "EMM_DEVL"
+  },
+  "AWS": {
+    "InfraAlarms": [
+    {
+        "ResourceType": "AWS::ECS",
+        "ResourceName": "arn:aws:ecs:us-east-1:310306400902:cluster/smart-ecs-smartecs",
+        "Dimensions": [
+          {
+            "ClusterName": ["smart-ecs-smartecs"],
+            "ServiceName": ["svc-smart-smartapi"]
+          }
+        ],
+        "Customization": {
+          "Period": 120,
+          "EvaluationPeriods": 5, 
+          "DatapointsToAlarm": 4,
+          "MetricAlarms":{
+            "CPUUtilization": {
+              "Statistic": "Maximum",
+              "Threshold": 95,
+              "Severity": "CRITICAL",
+              "Period": 120,
+              "EvaluationPeriods": 3,
+              "DatapointsToAlarm": 2,
+	      "ComparisonOperator": "GreaterThanThreshold"
+            },
+            "MemoryUtilization": {
+              "Statistic": "Maximum",
+              "Threshold": 95,
+              "Severity": "CRITICAL",
+              "Period": 120,
+              "EvaluationPeriods": 3,
+              "DatapointsToAlarm": 2,
+	      "ComparisonOperator": "GreaterThanThreshold"
+            },
+            "TaskCapacity": {
+              "Statistic": "Maximum",
+              "Threshold": 95,
+              "Severity": "CRITICAL",
+              "Period": 120,
+              "EvaluationPeriods": 3,
+              "DatapointsToAlarm": 2,
+              "ComparisonOperator": "LessThanThreshold"
+            }
+          }
+        },
+        "IncludeList": ["CPUUtilization","MemoryUtilization","TaskCapacity"]
+    },
+    {
+        "ResourceType": "AWS::elasticloadbalancingv2",
+        "ResourceName": "arn:aws:elasticloadbalancing:us-east-1:310306400902:loadbalancer/app/smart-alb-ecs-smartecs/e11352178975198d",
+        "Dimensions": [{
+        "LoadBalancer": ["smart-alb-ecs-smartecs"]
+        }
+     ],
+        "Customization": {
+          "Period": 120,
+          "EvaluationPeriods": 5, 
+          "DatapointsToAlarm": 4,
+          "Severity": "CRITICAL",
+          "MetricAlarms":{
+             "HTTPCode_ELB_5XX_Count": {
+                  "Statistic": "Sum",
+                  "Threshold": 2,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+              "HTTPCode_ELB_4XX_Count": {
+                  "Statistic": "Sum",
+                  "Threshold": 2,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+               "RejectedConnectionCount": {
+                  "Statistic": "Sum",
+                  "Threshold": 2,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+                "HTTPCode_Target_5XX_Count": {
+                  "Statistic": "Sum",
+                  "Threshold": 20,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+                "HTTPCode_Target_4XX_Count": {
+                  "Statistic": "Sum",
+                  "Threshold": 20,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+                "HTTPCode_Target_5XX_Percentage": {
+                  "Metrics": [
+                    {
+                      "Id": "m1",
+                      "Label": "HTTPCode_Target_5XX_Count",
+                      "MetricStat": {
+                        "Metric": {
+                          "MetricName": "HTTPCode_Target_5XX_Count"
+                        }
+                      },
+                      "ReturnData": false
+                    },
+                    {
+                      "Id": "m2",
+                      "Label": "RequestCount",
+                      "MetricStat": {
+                        "Metric": {
+                          "MetricName": "RequestCount"
+                        }
+                      },
+                      "ReturnData": false
+                    },
+                    {
+                      "Id": "result",
+                      "Label": "HTTPCode_Target_5XX_Percentage",
+                      "Expression": "m1 / m2",
+                      "ReturnData": true
+                    }
+                  ],        
+                  "Statistic": "Sum",
+                  "Threshold": 2,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+                "HTTPCode_Target_4XX_Percentage": {
+                  "Metrics": [
+                    {
+                      "Id": "m1",
+                      "Label": "HTTPCode_Target_4XX_Count",
+                      "MetricStat": {
+                        "Metric": {
+                          "MetricName": "HTTPCode_Target_4XX_Count"
+                        }
+                      },
+                      "ReturnData": false
+                    },
+                    {
+                      "Id": "m2",
+                      "Label": "RequestCount",
+                      "MetricStat": {
+                        "Metric": {
+                          "MetricName": "RequestCount"
+                        }
+                      },
+                      "ReturnData": false
+                    },
+                    {
+                      "Id": "result",
+                      "Label": "HTTPCode_Target_4XX_Percentage",
+                      "Expression": "m1 / m2",
+                      "ReturnData": true
+                    }
+                  ],        
+                  "Statistic": "Sum",
+                  "Threshold": 2,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+                "TargetConnectionErrorCount": {
+                  "Statistic": "Sum",
+                  "Threshold": 2,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+               "TargetTLSNegotiationErrorCount": {
+                  "Statistic": "Sum",
+                  "Threshold": 5,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+                "UnhealthyHostCount": {
+                  "Statistic": "Average",
+                  "Threshold": 0,
+                  "ComparisonOperator": "GreaterThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                },
+                "HealthyHostCountLow": {
+                  "Statistic": "Average",
+                  "Threshold": 1,
+                  "ComparisonOperator": "LessThanThreshold",
+                  "TreatMissingData": "notBreaching"
+                }
+}
+},
+"IncludeList": ["HTTPCode_ELB_5XX_Count","HTTPCode_ELB_4XX_Count","RejectedConnectionCount","HTTPCode_Target_5XX_Count","HTTPCode_Target_4XX_Count","HTTPCode_Target_5XX_Percentage","HTTPCode_Target_4XX_Percentage","TargetConnectionErrorCount","TargetTLSNegotiationErrorCount","UnhealthyHostCount","HealthyHostCountLow"]
+},
+    {
+        "ResourceType": "AWS::RDS",
+        "ResourceName": "arn:aws:rds:us-east-1:310306400902:db:smart-aur-smartdb",
+        "Dimensions": [
+        {
+                "DBInstanceIdentifier": ["smart-aur-smartdb"],
+                "DBClusterIdentifier": ["smart-clu-smartdb"]
+        }
+        ],
+        "Customization": {
+          "Period": 300,
+          "EvaluationPeriods": 2,
+          "DatapointsToAlarm": 2,
+          "Severity": "MINOR",
+        "MetricAlarms": {
+	     "CPUUtilization": {
+	           "Statistic": "Minimum",
+	            "Threshold": 85,
+	            "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	      "CPUUtilizationReader": {
+	           "DimensionsWithDefault": {"Role": "READER"},
+	           "Statistic": "Minimum",
+	           "Threshold": 85,
+	           "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	      "CPUUtilizationWriter": {
+	           "DimensionsWithDefault": {"Role": "WRITER"},
+	           "Statistic": "Minimum",
+	           "Threshold": 85,
+	           "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	      "DiskQueueDepth": {
+	          "Statistic": "Minimum",
+	          "Threshold": 10,
+	          "ComparisonOperator": "GreaterThanThreshold"
+	          },
+	      "DiskQueueDepthReader": {
+	          "DimensionsWithDefault": {"Role": "READER"},
+	          "Statistic": "Minimum",
+	          "Threshold": 10,
+	          "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	      "DiskQueueDepthWriter": {
+	          "DimensionsWithDefault": {"Role": "WRITER"},
+	          "Statistic": "Minimum",
+	          "Threshold": 10,
+	          "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	      "FreeStorageSpace": {
+	           "Statistic": "Minimum",
+	           "Threshold": 1073741824,
+	           "ComparisonOperator": "LessThanThreshold"
+	                },
+	      "FreeableMemory": {
+	          "Statistic": "Minimum",
+	          "Threshold": 524288000,
+	          "ComparisonOperator": "LessThanThreshold"
+	                },
+	      "FreeableMemoryReader": {
+	          "DimensionsWithDefault": {"Role": "READER"},
+	          "Statistic": "Minimum",
+	          "Threshold": 524288000,
+	          "ComparisonOperator": "LessThanThreshold"
+	                },
+	     "FreeableMemoryWriter": {
+	          "DimensionsWithDefault": {"Role": "WRITER"},
+	          "Statistic": "Minimum",
+	          "Threshold": 524288000,
+	          "ComparisonOperator": "LessThanThreshold"
+	                },
+	    "ReadLatency": {
+	          "Statistic": "Minimum",
+	          "Threshold": 0.03,
+	          "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	    "ReadLatencyReader": {
+	         "DimensionsWithDefault": {"Role": "READER"},
+	         "Statistic": "Minimum",
+	         "Threshold": 0.03,
+	         "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	    "ReadLatencyWriter": {
+	         "DimensionsWithDefault": {"Role": "WRITER"},
+	         "Statistic": "Minimum",
+	         "Threshold": 0.03,
+	         "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	    "WriteLatency": {
+	         "Statistic": "Minimum",
+	         "Threshold": 0.03,
+	         "ComparisonOperator": "GreaterThanThreshold"
+	                },          
+	     "WriteLatencyReader": {
+	          "DimensionsWithDefault": {"Role": "READER"},
+	          "Statistic": "Minimum",
+	          "Threshold": 0.03,
+	          "ComparisonOperator": "GreaterThanThreshold"
+	                },          
+	     "WriteLatencyWriter": {
+	           "DimensionsWithDefault": {"Role": "WRITER"},
+	           "Statistic": "Minimum",
+	           "Threshold": 0.03,
+	           "ComparisonOperator": "GreaterThanThreshold"
+	                },          
+	      "ReplicaLag": {
+	          "Statistic": "Maximum",
+	          "Threshold": 500,
+	          "ComparisonOperator": "GreaterThanOrEqualToThreshold"
+	                },
+	      "AuroraReplicaLag": {
+	          "DimensionsWithDefault": {"Role": "READER"},
+	          "Statistic": "Maximum",
+	          "Threshold": 500,
+	          "ComparisonOperator": "GreaterThanOrEqualToThreshold"
+	                },
+	       "DeadlocksReader": {
+	            "DimensionsWithDefault": {"Role": "READER"},
+	            "Statistic": "Minimum",
+	            "Threshold": 0,
+	            "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	       "DeadlocksWriter": {
+	           "DimensionsWithDefault": {"Role": "WRITER"},
+	           "Statistic": "Minimum",
+	           "Threshold": 0,
+	           "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	        "DatabaseConnections": {
+	             "Statistic": "Maximum",
+	             "Threshold": 100,
+	             "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	         "DatabaseConnectionsReader": {
+	             "DimensionsWithDefault": {"Role": "READER"},
+	             "Statistic": "Maximum",
+	             "Threshold": 100,
+	             "ComparisonOperator": "GreaterThanThreshold"
+	                },
+	         "DatabaseConnectionsWriter": {
+	              "DimensionsWithDefault": {"Role": "WRITER"},
+	              "Statistic": "Maximum",
+	              "Threshold": 100,
+	               "ComparisonOperator": "GreaterThanThreshold"
+	                }
+      }
+      },
+      "IncludeList": ["CPUUtilization","CPUUtilizationReader","CPUUtilizationWriter","DiskQueueDepth","DiskQueueDepthReader","DiskQueueDepthWriter","FreeStorageSpace","FreeableMemory","FreeableMemoryReader","FreeableMemoryWriter","ReadLatency","ReadLatencyReader","ReadLatencyWriter","WriteLatency","WriteLatencyReader","WriteLatencyWriter","ReplicaLag","AuroraReplicaLag","DeadlocksReader","DeadlocksWriter","DatabaseConnections","DatabaseConnectionsReader","DatabaseConnectionsWriter"]
+      }
+],
+    "AppAlarms": [
+      {
+              "ResourceType": "AWS::Lambda",
+              "ResourceName": "web",
+              "Dimensions": [
+              {
+                      "FunctionName": ["smart-devl-data-transformer-lambda","smart-devl-monthly-pub-lambda","smart-devl-cwlog-fltr","smart-devl-email-notification","smart-devl-event-cntx","smart-devl-smart-data-transformer-L1-lambda","smart-devl-smart-data-transformer-L3-lambda"]
+              }
+        ],
+    "Period": 60,
+	"EvaluationPeriods": 2,
+	"DatapointsToAlarm": 2,
+	"Severity": "MINOR",
+	"ThresholdType": "Static",
+        "MetricAlarms": {
+             "Errors": {
+	           "Statistic": "Sum",
+	           "Threshold": 1,
+	           "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+                   "TreatMissingData": "notBreaching"
+             },
+             "ConcurrentExecutions": {
+                   "Statistic": "Sum",
+	           "Threshold": 100,
+	           "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+                   "TreatMissingData": "notBreaching"
+             },
+             "Throttles": {
+	           "Statistic": "Sum",
+	           "Threshold": 1,
+	           "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+                   "TreatMissingData": "notBreaching"
+             }
+}
+}
+]
+}
+}
