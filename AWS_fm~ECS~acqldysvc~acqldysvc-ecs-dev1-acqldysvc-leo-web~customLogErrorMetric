@@ -1,0 +1,19 @@
+Type: AWS::CloudWatch::Alarm
+Properties:
+    AlarmName: AWS_fm~ECS~acqldysvc~acqldysvc-ecs-dev1-acqldysvc-leo-web~customLogErrorMetric
+    AlarmDescription: LifeCycle=devl-sfbu,AssetID=MSR06554,AlertGroup=,Severity=4
+    ActionsEnabled: true
+    OKActions: []
+    AlarmActions:
+        - arn:aws:sns:us-east-1:310306400902:fnma-emm-topic
+        - arn:aws:sns:us-east-1:310306400902:acqldysvc-devl-sfbu-application-events-topic
+    InsufficientDataActions: []
+    MetricName: acqldysvc-leo-web-dev1-customLogErrorMetric
+    Namespace: AppLogMetrics
+    Statistic: Minimum
+    Dimensions: []
+    Period: 900
+    EvaluationPeriods: 1
+    DatapointsToAlarm: 1
+    Threshold: 1
+    ComparisonOperator: GreaterThanOrEqualToThreshold
