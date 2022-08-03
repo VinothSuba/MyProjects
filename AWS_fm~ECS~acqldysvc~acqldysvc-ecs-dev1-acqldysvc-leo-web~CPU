@@ -1,0 +1,23 @@
+Type: AWS::CloudWatch::Alarm
+Properties:
+    AlarmName: AWS_fm~ECS~acqldysvc~acqldysvc-ecs-dev1-acqldysvc-leo-web~CPU
+    AlarmDescription: LifeCycle=devl-sfbu,AssetID=MSR06554,AlertGroup=,Severity=4
+    ActionsEnabled: true
+    OKActions: []
+    AlarmActions:
+        - arn:aws:sns:us-east-1:310306400902:fnma-emm-topic
+        - arn:aws:sns:us-east-1:310306400902:acqldysvc-devl-sfbu-application-events-topic
+    InsufficientDataActions: []
+    MetricName: CpuUtilized
+    Namespace: ECS
+    Statistic: Average
+    Dimensions:
+        - Name: ClusterName
+          Value: acqldysvc-ecs-dev1
+        - Name: ServiceName
+          Value: acqldysvc-leo-web
+    Period: 120
+    EvaluationPeriods: 2
+    DatapointsToAlarm: 2
+    Threshold: 75
+    ComparisonOperator: GreaterThanThreshold
