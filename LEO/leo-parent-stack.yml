@@ -1,0 +1,177 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Provision/Configure Application Stack
+Parameters:
+  Env:
+    Type: String
+  Environment:
+    Type: String
+  AwsRegion:
+    Type: String
+  LEOReqQueue:
+    Type: String
+  P2pBridgeAccountID:
+    Type: String
+  LoanEligibilityResponseQueue:
+    Type: String
+    Default: ""
+  LEOResQueue:
+    Type: String
+  LEOResQueueEast2:
+    Type: String
+    Default: ""
+  LEOResTopic:
+    Type: String
+  ClusterName: 
+    Type: String
+  ServiceNameLeo:  
+    Type: String
+    Default: "acqldysvc-leo-web"
+  EvaluationPeriods: 
+    Type: Number
+  CpuThreshold: 
+    Type: Number
+  AlertGroup: 
+    Type: String
+  AlertSeverity: 
+    Type: Number
+  ThresholdTimePeriod: 
+    Type: Number
+  ApplicationSNSTopic: 
+    Type: String
+  EmmSNSTopic: 
+    Type: String
+  CustomLogFilterPatternSvcLeo: 
+    Type: String
+    Default: "{($.level=\"ERROR\" || $.level=\"FATAL\")}"
+  MemoryThreshold: 
+    Type: Number
+  ContainerDesiredCountLeo: 
+    Type: Number
+    Default: 1
+  ActionsEnabled: 
+    Type: String
+  LEOAcqEligibilityRequestTopic:
+    Type: String
+    Default: ""
+  LEOPricingEligibilityRequestTopic:
+    Type: String
+    Default: ""
+  BROEligibilityRequestQueue:
+    Type: String
+    Default: ""
+  BROEligibilityRequestQueueEast2:
+    Type: String
+    Default: ""
+  DbInstanceName:
+    Type: String
+    Default: ""
+  LeoReqSqs:
+    Type: String
+    Default: ""
+  LeoResSqs:
+    Type: String
+    Default: ""
+  LoanAcquisitionsEligibilityRequestedSns:
+    Type: String
+    Default: ""
+  LoanPricingEligibilityRequestedSns:
+    Type: String
+    Default: ""
+  LeoResSns:
+    Type: String
+    Default: ""
+
+Resources:
+  SqsPolicyLeoStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://acqldysvc-${Env}-sfbu-${AwsRegion}.s3.amazonaws.com/deploy/CF_Templates/${Environment}/leo/leo-sqs-policy-stack.yaml"
+      Parameters:
+        Environment: !Ref Environment
+        LEOReqQueue: !Ref LEOReqQueue
+        P2pBridgeAccountID: !Ref P2pBridgeAccountID
+        LoanEligibilityResponseQueue: !Ref LoanEligibilityResponseQueue
+
+  SnsSubscriptionLeoResStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://acqldysvc-${Env}-sfbu-${AwsRegion}.s3.amazonaws.com/deploy/CF_Templates/${Environment}/leo/leo-sns-subscription-leores-topic-v1-stack.yaml"
+      Parameters:
+        Environment: !Ref Environment
+        LEOResTopic: !Ref LEOResTopic
+        LEOResQueue: !Ref LEOResQueue
+        LEOResQueueEast2: !Ref LEOResQueueEast2
+        
+  # SqsAcqEligibilityResponseStack:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub "https://acqldysvc-${Env}-sfbu-${AwsRegion}.s3.amazonaws.com/deploy/CF_Templates/${Environment}/leo/leo-bro-sqs-policy-loaneligibilityresponse-v1-stack.yaml"
+  #     Parameters:
+  #       LoanEligibilityResponseQueue: !Ref LoanEligibilityResponseQueue
+  #       Environment: !Ref Environment
+  
+  LDNGLeoAlarmStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://acqldysvc-${Env}-sfbu-${AwsRegion}.s3.amazonaws.com/deploy/CF_Templates/${Environment}/leo/ldng-ecs-svc-alarms-stack.yaml"
+      Parameters:
+        Environment: !Ref Environment
+        ClusterName: !Ref ClusterName
+        ServiceName: !Ref ServiceNameLeo
+        EvaluationPeriods: !Ref EvaluationPeriods
+        CpuThreshold: !Ref CpuThreshold
+        AlertGroup: !Ref AlertGroup
+        AlertSeverity: !Ref AlertSeverity
+        ThresholdTimePeriod: !Ref ThresholdTimePeriod
+        ApplicationSNSTopic: !Ref ApplicationSNSTopic
+        EmmSNSTopic: !Ref EmmSNSTopic
+        CustomLogFilterPatternSvc: !Ref CustomLogFilterPatternSvcLeo
+        MemoryThreshold: !Ref MemoryThreshold
+        ContainerDesiredCount: !Ref ContainerDesiredCountLeo
+        ActionsEnabled: !Ref ActionsEnabled
+        AwsRegion: !Ref AwsRegion
+        LeoReqSqs: !Ref LeoReqSqs
+        LeoResSqs: !Ref LeoResSqs
+        LoanAcquisitionsEligibilityRequestedSns: !Ref LoanAcquisitionsEligibilityRequestedSns
+        LoanPricingEligibilityRequestedSns: !Ref LoanPricingEligibilityRequestedSns
+        LeoResSns: !Ref LeoResSns
+        DbInstanceName: !Ref DbInstanceName
+
+  LDNGLeoCloudWatchDashboard:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://acqldysvc-${Env}-sfbu-${AwsRegion}.s3.amazonaws.com/deploy/CF_Templates/${Environment}/leo/ldng-leo-cw-sqs-sns-rds-s3-pg-stack.yaml"
+      Parameters:
+        Environment: !Ref Environment
+        ClusterName: !Ref ClusterName
+        ServiceName: !Ref ServiceNameLeo
+        DbInstanceName: !Ref DbInstanceName
+        LeoReqSqs: !Ref LeoReqSqs
+        LeoResSqs: !Ref LeoResSqs
+        LoanAcquisitionsEligibilityRequestedSns: !Ref LoanAcquisitionsEligibilityRequestedSns
+        ThresholdTimePeriod: !Ref ThresholdTimePeriod
+        ApplicationSNSTopic: !Ref ApplicationSNSTopic
+        LoanPricingEligibilityRequestedSns: !Ref LoanPricingEligibilityRequestedSns
+        LeoResSnsn: !Ref LeoResSns
+        
+  LEOLnElgbltyResQueueAlarmStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://acqldysvc-${Env}-sfbu-${AwsRegion}.s3.amazonaws.com/deploy/CF_Templates/${Environment}/leo/leo-LnElgbltyRes-sqs-alarms-stack.yaml"
+      Parameters:
+        Environment: !Ref Environment
+        AlertGroup: !Ref AlertGroup
+
+  LEOLeoReqQueueAlarmStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://acqldysvc-${Env}-sfbu-${AwsRegion}.s3.amazonaws.com/deploy/CF_Templates/${Environment}/leo/leo-LeoReq-sqs-alarms-stack.yaml"
+      Parameters:
+        Environment: !Ref Environment
+        AlertGroup: !Ref AlertGroup
+  # LDNGAlarmSubscriptionStack:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub "https://acqldysvc-${Env}-sfbu-${AwsRegion}.s3.amazonaws.com/deploy/CF_Templates/${Environment}/leo/sns-topic-subscription-for-alarms-stack.yaml"
+  #     Parameters:
+  #       Env: !Ref Env
