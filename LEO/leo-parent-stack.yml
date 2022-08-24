@@ -134,7 +134,7 @@ Resources:
         LeoResSqs: !Ref LeoResSqs
         LoanAcquisitionsEligibilityRequestedSns: !Ref LoanAcquisitionsEligibilityRequestedSns
         LoanPricingEligibilityRequestedSns: !Ref LoanPricingEligibilityRequestedSns
-        LeoResSns: !Ref LeoResSns
+        LeoResSnsn: !Ref LeoResSns
         DbInstanceName: !Ref DbInstanceName
 
   LDNGLeoCloudWatchDashboard:
