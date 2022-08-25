@@ -143,6 +143,7 @@ Resources:
       TemplateURL: !Sub "https://acqldysvc-${Env}-sfbu-${AwsRegion}.s3.amazonaws.com/deploy/CF_Templates/${Environment}/leo/ldng-leo-cw-sqs-sns-rds-s3-pg-stack.yaml"
       Parameters:
         Environment: !Ref Environment
+        AwsRegion: !Ref AwsRegion
         ClusterName: !Ref ClusterName
         ServiceName: !Ref ServiceNameLeo
         DbInstanceName: !Ref DbInstanceName
@@ -152,7 +153,7 @@ Resources:
         ThresholdTimePeriod: !Ref ThresholdTimePeriod
         ApplicationSNSTopic: !Ref ApplicationSNSTopic
         LoanPricingEligibilityRequestedSns: !Ref LoanPricingEligibilityRequestedSns
-        LeoResSnsn: !Ref LeoResSns
+        LeoResSns: !Ref LeoResSns
         
   LEOLnElgbltyResQueueAlarmStack:
     Type: AWS::CloudFormation::Stack
