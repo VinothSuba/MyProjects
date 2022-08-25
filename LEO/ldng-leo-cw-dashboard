@@ -1,0 +1,262 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'This template for leo cloudwatch dashboard'
+Parameters:
+# Tag Parameters on every resource.
+  Environment:
+    Type: String
+  AccountId:
+    Type: String
+  AwsRegion:
+    Type: String
+  DbInstanceName:
+    Type: String 
+  LeoReqSqs:
+    Type: String
+  LeoResSqs:
+    Type: String
+  LoanAcquisitionsEligibilityRequestedSns:
+    Type: String
+  LoanPricingEligibilityRequestedSns:
+    Type: String
+  LeoResSns:
+    Type: String
+
+Resources:
+  leoCWDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: !Sub leo-${Environment}-Dashboard
+      DashboardBody: !Sub '{"widgets": [
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "CPUUtilization", "DBInstanceIdentifier", "${DbInstanceName}", { "stat": "Average", "id": "m0", "region": "${AwsRegion}" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "${DbInstanceName}-RDS-CPUUtilization",
+                "region": "${AwsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "DatabaseConnections", "DBInstanceIdentifier", "${DbInstanceName}", { "stat": "Sum", "id": "m0" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "${DbInstanceName}-RDS-DatabaseConnections",
+                "region": "${AwsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "FreeableMemory", "DBInstanceIdentifier", "${DbInstanceName}", { "stat": "Average", "id": "m0" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "${DbInstanceName}-RDS-FreeableMemory",
+                "region": "${AwsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 18,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "ReadThroughput", "DBInstanceIdentifier", "${DbInstanceName}", { "stat": "Average", "id": "m0", "region": "${AwsRegion}" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "${DbInstanceName}-RDS-ReadThroughput",
+                "region": "${AwsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 6,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "WriteThroughput", "DBInstanceIdentifier", "${DbInstanceName}", { "stat": "Average", "id": "m0", "region": "${AwsRegion}" } ]
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "end": "P0D",
+                "title": "${DbInstanceName}-RDS-WriteThroughput",
+                "region": "${AwsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 6,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/SQS","ApproximateAgeOfOldestMessage", "QueueName", "${LeoReqSqs}", { "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "NumberOfMessagesSent", ".", ".", { "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "SentMessageSize", ".", ".", { "stat": "Average", "region": "${AwsRegion}" }] 
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "title": "${LeoReqSqs}",
+                "region": "${AwsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 6,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/SQS","ApproximateAgeOfOldestMessage", "QueueName", "${LeoResSqs}", { "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "NumberOfMessagesSent", ".", ".", { "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "SentMessageSize", ".", ".", { "stat": "Average", "region": "${AwsRegion}" }] 
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "title": "${LeoResSqs}",
+                "region": "${AwsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 6,
+            "x": 18,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/SNS", "NumberOfMessagesPublished", "TopicName", "${LoanAcquisitionsEligibilityRequestedSns}",{ "stat": "Sum", "region": "${AwsRegion}" }],
+                    [".", "NumberOfNotificationsFailed", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "NumberOfNotificationsRedrivenToDlq", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "NumberOfNotificationsFailedToRedriveToDlq", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "PublishSize", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }]                                                                      
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "title": "${LoanAcquisitionsEligibilityRequestedSns}",
+                "region": "${AwsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 12,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/SNS", "NumberOfMessagesPublished", "TopicName", "${LoanPricingEligibilityRequestedSns}", { "stat": "Sum", "region": "${AwsRegion}" }],
+                    [".", "NumberOfNotificationsFailed", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "NumberOfNotificationsRedrivenToDlq", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "NumberOfNotificationsFailedToRedriveToDlq", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "PublishSize", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }]                                                                      
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "title": "${LoanPricingEligibilityRequestedSns}",
+                "region": "${AwsRegion}"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 12,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/SNS", "NumberOfMessagesPublished", "TopicName", "${LeoResSns}", { "stat": "Sum", "region": "${AwsRegion}" }],
+                    [".", "NumberOfNotificationsFailed", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "NumberOfNotificationsRedrivenToDlq", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "NumberOfNotificationsFailedToRedriveToDlq", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }],
+                    [".", "PublishSize", ".", ".",{ "stat": "Average", "region": "${AwsRegion}" }]                                                                      
+                ],
+                "legend": {
+                    "position": "bottom"
+                },
+                "period": 300,
+                "view": "timeSeries",
+                "stacked": false,
+                "start": "-PT3H",
+                "title": "${LeoResSns}",
+                "region": "${AwsRegion}"
+            }
+        }
+]
+}'
