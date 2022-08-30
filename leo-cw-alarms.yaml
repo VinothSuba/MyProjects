@@ -1,0 +1,612 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'This template for leo cloudwatch alarms'
+
+Parameters:
+  Environment:
+    Type: String
+    # Default: dev1
+  AccountId:
+    Type: String
+    # Default: XXXXXXXXXXXX  
+  AwsRegion:
+    Type: String
+    # Default: us-east-1
+  LeoReqSqs:
+    Type: String
+    # Default: acqldysvc-dev1-sfbu-LEOREQ-dev-v1
+  LeoResSqs:
+    Type: String
+    # Default: acqldysvc-dev1-sfbu-loaneligibilityresponse-dev1-v1
+  LoanAcquisitionsEligibilityRequestedSns:
+    Type: String
+    # Default: acqldysvc-dev1-sfbu-LoanAcquisitionsEligibilityRequested-dev1-v1
+  LoanPricingEligibilityRequestedSns:
+    Type: String
+    # Default: acqldysvc-dev1-sfbu-LoanPricingEligibilityRequested-dev1-v1
+  LeoResSnsn:
+    Type: String
+    # Default: acqldysvc-dev1-sfbu-LEORES-dev1-v1
+  DbInstanceName:
+    Type: String
+    # Default: acqldysvc- clu-leodev1/acqldysvc_dev1  
+  AlarmSNSTopic:
+    Type: String
+    # Default: acqldysvc-devl-sfbu-application-events-topic
+
+Resources:
+  LeoReqSqsNumberOfMessagesSentP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SQS~${LeoReqSqs}~SqsNumberOfMessagesSentP20"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfMessagesSent
+      Namespace: AWS/SQS
+      Statistic: Average
+      Dimensions:
+          - Name: QueueName
+            Value: !Ref LeoReqSqs
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 10
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoReqSqsSentMessageSizeP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SQS~${LeoReqSqs}~SqsSentMessageSizeP20"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: SentMessageSize
+      Namespace: AWS/SQS
+      Statistic: Average
+      Dimensions:
+          - Name: QueueName
+            Value: !Ref LeoReqSqs
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 10
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoReqSqsSentMessageSizeP30:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SQS~${LeoReqSqs}~SqsSentMessageSizeP30"
+      AlarmDescription: !Sub "30%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: SentMessageSize
+      Namespace: AWS/SQS
+      Statistic: Average
+      Dimensions:
+          - Name: QueueName
+            Value: !Ref LeoReqSqs
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoResSqsNumberOfMessagesSentP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SQS~${LeoResSqs}~SqsNumberOfMessagesSentP20"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfMessagesSent
+      Namespace: AWS/SQS
+      Statistic: Average
+      Dimensions:
+          - Name: QueueName
+            Value: !Ref LeoResSqs
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 10
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoResSqsSentMessageSizeP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SQS~${LeoResSqs}~SqsSentMessageSizeP20"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: SentMessageSize
+      Namespace: AWS/SQS
+      Statistic: Average
+      Dimensions:
+          - Name: QueueName
+            Value: !Ref LeoResSqs
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 10
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoResSqsSentMessageSizeP30:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SQS~${LeoResSqs}~SqsSentMessageSizeP30"
+      AlarmDescription: !Sub "30%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: SentMessageSize
+      Namespace: AWS/SQS
+      Statistic: Average
+      Dimensions:
+          - Name: QueueName
+            Value: !Ref LeoResSqs
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+
+  LoanAcquisitionsEligibilityRequestedSnsNumberOfMessagesPublishedP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanAcquisitionsEligibilityRequestedSns}~NumberOfMessagesPublished"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfMessagesPublished
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanAcquisitionsEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 10
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LoanAcquisitionsEligibilityRequestedSnsNumberOfNotificationsFailedP10:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanAcquisitionsEligibilityRequestedSns}~NumberOfNotificationsFailedP10"
+      AlarmDescription: !Sub "10%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfNotificationsFailed
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanAcquisitionsEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LoanAcquisitionsEligibilityRequestedSnsNumberOfNotificationsRedrivenToDlqP10:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanAcquisitionsEligibilityRequestedSns}~NumberOfNotificationsRedrivenToDlq10"
+      AlarmDescription: !Sub "10%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfNotificationsRedrivenToDlq
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanAcquisitionsEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LoanAcquisitionsEligibilityRequestedSnsNumberOfNotificationsFailedToRedriveToDlqP10:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanAcquisitionsEligibilityRequestedSns}~NumberOfNotificationsFailedToRedriveToDlq10"
+      AlarmDescription: !Sub "10%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfNotificationsFailedToRedriveToDlq
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanAcquisitionsEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LoanAcquisitionsEligibilityRequestedSnsPublishSizeP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanAcquisitionsEligibilityRequestedSns}~PublishSizeP20"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: PublishSize
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanAcquisitionsEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 12
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  
+  LoanPricingEligibilityRequestedSnsNumberOfMessagesPublishedP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanPricingEligibilityRequestedSns}~NumberOfMessagesPublished"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfMessagesPublished
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanPricingEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 10
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LoanPricingEligibilityRequestedSnsNumberOfNotificationsFailedP10:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanPricingEligibilityRequestedSns}~NumberOfNotificationsFailedP10"
+      AlarmDescription: !Sub "10%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfNotificationsFailed
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanPricingEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LoanPricingEligibilityRequestedSnsNumberOfNotificationsRedrivenToDlqP10:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanPricingEligibilityRequestedSns}~NumberOfNotificationsRedrivenToDlq10"
+      AlarmDescription: !Sub "10%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfNotificationsRedrivenToDlq
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanPricingEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LoanPricingEligibilityRequestedSnsNumberOfNotificationsFailedToRedriveToDlqP10:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanPricingEligibilityRequestedSns}~NumberOfNotificationsFailedToRedriveToDlq10"
+      AlarmDescription: !Sub "10%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfNotificationsFailedToRedriveToDlq
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanPricingEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LoanPricingEligibilityRequestedSnsPublishSizeP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LoanPricingEligibilityRequestedSns}~PublishSizeP20"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: PublishSize
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LoanPricingEligibilityRequestedSns
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 12
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+
+  LeoResSnsnNumberOfMessagesPublishedP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LeoResSnsn}~NumberOfMessagesPublished"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfMessagesPublished
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LeoResSnsn
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 10
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoResSnsnNumberOfNotificationsFailedP10:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LeoResSnsn}~NumberOfNotificationsFailedP10"
+      AlarmDescription: !Sub "10%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfNotificationsFailed
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LeoResSnsn
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoResSnsnNumberOfNotificationsRedrivenToDlqP10:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LeoResSnsn}~NumberOfNotificationsRedrivenToDlq10"
+      AlarmDescription: !Sub "10%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfNotificationsRedrivenToDlq
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LeoResSnsn
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoResSnsnNumberOfNotificationsFailedToRedriveToDlqP10:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LeoResSnsn}~NumberOfNotificationsFailedToRedriveToDlq10"
+      AlarmDescription: !Sub "10%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: NumberOfNotificationsFailedToRedriveToDlq
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LeoResSnsn
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 6
+      DatapointsToAlarm: 4
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoResSnsnPublishSizeP20:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~SNS~${LeoResSnsn}~PublishSizeP20"
+      AlarmDescription: !Sub "20%-WARNING-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: PublishSize
+      Namespace: AWS/SNS
+      Statistic: Average
+      Dimensions:
+          - Name: TopicName
+            Value: !Ref LeoResSnsn
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 12
+      DatapointsToAlarm: 9
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+
+  LeoDbInstanceCPUUtilization:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~RDS~${DbInstanceName}~CPUUtilization"
+      AlarmDescription: !Sub "85%-MAJOR-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: CPUUtilization
+      Namespace: AWS/RDS
+      Statistic: Average
+      Dimensions:
+          - Name: DBInstanceIdentifier
+            Value: !Ref DbInstanceName
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 2
+      DatapointsToAlarm: 2
+      Threshold: 85
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoDbInstanceDatabaseConnections:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~RDS~${DbInstanceName}~DatabaseConnections"
+      AlarmDescription: !Sub "85%-MAJOR-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: DatabaseConnections
+      Namespace: AWS/RDS
+      Statistic: Average
+      Dimensions:
+          - Name: DBInstanceIdentifier
+            Value: !Ref DbInstanceName
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 2
+      DatapointsToAlarm: 2
+      Threshold: 85
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoDbInstanceFreeableMemory:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~RDS~${DbInstanceName}~FreeableMemory"
+      AlarmDescription: !Sub "85%-MAJOR-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: FreeableMemory
+      Namespace: AWS/RDS
+      Statistic: Average
+      Dimensions:
+          - Name: DBInstanceIdentifier
+            Value: !Ref DbInstanceName
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 2
+      DatapointsToAlarm: 2
+      Threshold: 85
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoDbInstanceReadThroughput:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~RDS~${DbInstanceName}~ReadThroughput"
+      AlarmDescription: !Sub "85%-MAJOR-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: ReadThroughput
+      Namespace: AWS/RDS
+      Statistic: Average
+      Dimensions:
+          - Name: DBInstanceIdentifier
+            Value: !Ref DbInstanceName
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 2
+      DatapointsToAlarm: 2
+      Threshold: 85
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+  LeoDbInstanceWriteThroughput:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "AWS_fm~RDS~${DbInstanceName}~WriteThroughput"
+      AlarmDescription: !Sub "85%-MAJOR-${Environment}"
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
+      InsufficientDataActions: []
+      MetricName: WriteThroughput
+      Namespace: AWS/RDS
+      Statistic: Average
+      Dimensions:
+          - Name: DBInstanceIdentifier
+            Value: !Ref DbInstanceName
+      Period: 300
+      Unit: Count
+      EvaluationPeriods: 2
+      DatapointsToAlarm: 2
+      Threshold: 85
+      ComparisonOperator: GreaterThanOrEqualToThreshold
