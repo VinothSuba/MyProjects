@@ -7,7 +7,7 @@ Parameters:
     # Default: dev1
   AccountId:
     Type: String
-    # Default: XXXXXXXXX  
+    # Default: XXXXXXXXXXXX  
   AwsRegion:
     Type: String
     # Default: us-east-1
@@ -29,16 +29,11 @@ Parameters:
   DbInstanceName:
     Type: String
     # Default: acqldysvc- clu-leodev1/acqldysvc_dev1  
+  AlarmSNSTopic:
+    Type: String
+    # Default: acqldysvc-devl-sfbu-application-events-topic
 
 Resources:
-  LeoSNSTopic:
-    Type: AWS::SNS::Topic
-    Properties:
-      TopicName: !Sub "AWS-fm-SNS-acqldysvc-leo-${Environment}-topic"
-      Subscription:
-      - Endpoint: abc@gmail.com
-        Protocol: email
-  
   LeoReqSqsNumberOfMessagesSentP20:
     Type: AWS::CloudWatch::Alarm
     Properties:
@@ -47,7 +42,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfMessagesSent
       Namespace: AWS/SQS
@@ -69,7 +64,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: SentMessageSize
       Namespace: AWS/SQS
@@ -91,7 +86,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: SentMessageSize
       Namespace: AWS/SQS
@@ -113,7 +108,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfMessagesSent
       Namespace: AWS/SQS
@@ -135,7 +130,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: SentMessageSize
       Namespace: AWS/SQS
@@ -157,7 +152,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: SentMessageSize
       Namespace: AWS/SQS
@@ -180,7 +175,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfMessagesPublished
       Namespace: AWS/SNS
@@ -202,7 +197,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfNotificationsFailed
       Namespace: AWS/SNS
@@ -224,7 +219,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfNotificationsRedrivenToDlq
       Namespace: AWS/SNS
@@ -246,7 +241,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfNotificationsFailedToRedriveToDlq
       Namespace: AWS/SNS
@@ -268,7 +263,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: PublishSize
       Namespace: AWS/SNS
@@ -291,7 +286,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfMessagesPublished
       Namespace: AWS/SNS
@@ -313,7 +308,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfNotificationsFailed
       Namespace: AWS/SNS
@@ -335,7 +330,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfNotificationsRedrivenToDlq
       Namespace: AWS/SNS
@@ -357,7 +352,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfNotificationsFailedToRedriveToDlq
       Namespace: AWS/SNS
@@ -379,7 +374,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: PublishSize
       Namespace: AWS/SNS
@@ -402,7 +397,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfMessagesPublished
       Namespace: AWS/SNS
@@ -424,7 +419,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfNotificationsFailed
       Namespace: AWS/SNS
@@ -446,7 +441,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfNotificationsRedrivenToDlq
       Namespace: AWS/SNS
@@ -468,7 +463,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: NumberOfNotificationsFailedToRedriveToDlq
       Namespace: AWS/SNS
@@ -490,7 +485,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: PublishSize
       Namespace: AWS/SNS
@@ -513,7 +508,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: CPUUtilization
       Namespace: AWS/RDS
@@ -535,7 +530,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: DatabaseConnections
       Namespace: AWS/RDS
@@ -557,7 +552,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: FreeableMemory
       Namespace: AWS/RDS
@@ -579,7 +574,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: ReadThroughput
       Namespace: AWS/RDS
@@ -601,7 +596,7 @@ Resources:
       ActionsEnabled: true
       OKActions: []
       AlarmActions:
-          - !Ref LeoSNSTopic
+          - !Sub "arn:aws:sns:${AwsRegion}:${AccountId}:${AlarmSNSTopic}"
       InsufficientDataActions: []
       MetricName: WriteThroughput
       Namespace: AWS/RDS
